@@ -4,3 +4,98 @@ ruby = "3.2.8"
 
 [hooks]
 postinstall = "bun install && gem install bundler && bundle install && bun pods"
+
+[tasks.metro]
+description = "Start Metro for JS/TS development"
+run = "bun start"
+
+[tasks.app]
+description = "Open the existing debug macOS app, or build it once if missing"
+run = '''
+set -e
+APP="$(find "$HOME/Library/Developer/Xcode/DerivedData" -path "*/Build/Products/Debug/NaviaDebug.app" -type d -print -quit 2>/dev/null || true)"
+if [ -n "$APP" ]; then
+  echo "Opening $APP"
+  open "$APP"
+else
+  echo "No debug app found; building and launching it once..."
+  bun macos
+fi
+'''
+
+[tasks.macos]
+description = "Build and launch the debug macOS app"
+run = "bun macos"
+
+[tasks.local]
+description = "Build and launch the local debug Navia app"
+run = "bun macos"
+
+[tasks.build-release]
+description = "Build the local Release Navia app"
+run = '''
+set -euo pipefail
+xcodebuild \
+  -workspace macos/sol.xcworkspace \
+  -scheme release \
+  -configuration Release \
+  -destination 'generic/platform=macOS' \
+  -derivedDataPath macos/build-local \
+  ARCHS=arm64 \
+  ONLY_ACTIVE_ARCH=YES \
+  CODE_SIGN_STYLE=Automatic \
+  COMPILER_INDEX_STORE_ENABLE=NO \
+  SENTRY_DISABLE_AUTO_UPLOAD=true
+
+APP="macos/build-local/Build/Products/Release/Navia.app"
+if [ ! -d "$APP" ]; then
+  echo "Expected build output missing: $APP" >&2
+  exit 1
+fi
+echo "Built $APP"
+'''
+
+[tasks.local-release]
+description = "Build and open a local Release Navia app for better performance"
+run = '''
+set -euo pipefail
+mise run build-release
+APP="macos/build-local/Build/Products/Release/Navia.app"
+echo "Opening $APP"
+open "$APP"
+'''
+
+[tasks.install-local]
+description = "Build Release, copy Navia.app to /Applications, and open it"
+run = '''
+set -euo pipefail
+mise run build-release
+
+APP="macos/build-local/Build/Products/Release/Navia.app"
+DEST="/Applications/Navia.app"
+
+if [ ! -d "$APP" ]; then
+  echo "Expected build output missing: $APP" >&2
+  exit 1
+fi
+
+if [ -d "$DEST" ]; then
+  echo "Replacing $DEST"
+  rm -rf "$DEST"
+fi
+
+echo "Copying $APP to $DEST"
+ditto "$APP" "$DEST"
+codesign --verify "$DEST"
+
+echo "Opening $DEST"
+open "$DEST"
+'''
+
+[tasks.perf]
+description = "Alias for local-release"
+run = "mise run local-release"
+
+[tasks.default]
+description = "Open the debug macOS app"
+run = "mise run app"

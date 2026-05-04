@@ -24,7 +24,7 @@ if (!xml || xml.trim().length === 0) {
 }
 
 // Replace the URL
-const urlToReplace = `https://raw.githubusercontent.com/ospfranco/sol/main/releases/${version}.zip`;
+const urlToReplace = `https://raw.githubusercontent.com/tingkaichiu/navia/main/releases/${version}.zip`;
 xml = xml.replace(urlToReplace, url);
 
 // Add release notes to the specific version

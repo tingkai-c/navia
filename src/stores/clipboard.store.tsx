@@ -9,7 +9,7 @@ import { storage } from "./storage";
 import { Widget } from "./ui.store";
 
 const MAX_ITEMS = 1000;
-const MANAGED_PASTEBOARD_IMAGES_PATH = `/Users/${solNative.userName()}/.config/sol/images_pasteboard`;
+const MANAGED_PASTEBOARD_IMAGES_PATH = `/Users/${solNative.userName()}/.config/navia/images_pasteboard`;
 
 let onTextCopiedListener: EmitterSubscription | undefined;
 let onFileCopiedListener: EmitterSubscription | undefined;

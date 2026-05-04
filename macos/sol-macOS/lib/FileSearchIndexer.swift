@@ -6,7 +6,7 @@ class FileSearchIndexer {
 
   private var eventStream: FSEventStreamRef?
   private var watchedPaths: [String] = []
-  private let processingQueue = DispatchQueue(label: "com.ospfranco.sol.filesearch.events", qos: .utility)
+  private let processingQueue = DispatchQueue(label: "com.tingkaichiu.navia.filesearch.events", qos: .utility)
 
   func startWatching(paths: [String]) {
     stopWatching()

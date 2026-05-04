@@ -144,6 +144,9 @@ export const createCalendarStore = (root: IRootStore) => {
 				}
 
 				const dayISODate = lEventDay.toISODate();
+				if (dayISODate == null) {
+					continue;
+				}
 				if (!acc[dayISODate]) {
 					acc[dayISODate] = {
 						date: lEventDay,

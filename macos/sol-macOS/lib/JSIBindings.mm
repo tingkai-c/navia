@@ -10,9 +10,17 @@
 #import <Foundation/Foundation.h>
 #import <iostream>
 #ifdef DEBUG
+#if __has_include(<NaviaDebug-Swift.h>)
+#import <NaviaDebug-Swift.h>
+#else
 #import <sol_debug-Swift.h>
+#endif
+#else
+#if __has_include(<Navia-Swift.h>)
+#import <Navia-Swift.h>
 #else
 #import <sol-Swift.h>
+#endif
 #endif
 #import "FolderWatcherJSI.h"
 

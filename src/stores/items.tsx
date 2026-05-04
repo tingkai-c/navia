@@ -120,7 +120,7 @@ export function createBaseItems(store: IRootStore) {
 		{
 			id: "settings",
 			iconImage: Assets.SettingsIcon,
-			name: "Sol Settings",
+			name: "Navia Settings",
 			alias: "preferences",
 			type: ItemType.CONFIGURATION,
 			callback: () => {
@@ -434,7 +434,7 @@ export function createBaseItems(store: IRootStore) {
 		{
 			id: "check_for_updates",
 			icon: "🆙",
-			name: "Check for Sol updates",
+			name: "Check for Navia updates",
 			type: ItemType.CONFIGURATION,
 			callback: () => {
 				solNative.checkForUpdates();
@@ -639,7 +639,7 @@ export function createBaseItems(store: IRootStore) {
 		{
 			id: "quit_sol",
 			icon: "💀",
-			name: "Quit/Exit Sol",
+			name: "Quit/Exit Navia",
 			type: ItemType.CONFIGURATION,
 			callback: async () => {
 				solNative.quit();

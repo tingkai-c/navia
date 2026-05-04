@@ -17,7 +17,7 @@ export const About = observer(() => {
         }}
       />
       <View className="gap-2 items-center">
-        <Text className="text-3xl">Sol</Text>
+        <Text className="text-3xl">Navia</Text>
         <Text className="darker-text text-xxs">{packageInfo.version}</Text>
         <View className="flex-row items-center gap-2">
           <Text className="">by</Text>

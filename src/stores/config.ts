@@ -16,6 +16,7 @@ export const PORTABLE_KEYS = [
 	"searchEngine",
 	"customSearchUrl",
 	"shortcuts",
+	"appAliases",
 	"showInAppBrowserBookMarks",
 	"hyperKeyEnabled",
 	"customItems",
@@ -25,7 +26,7 @@ export const PORTABLE_KEYS = [
 export type PortableKey = (typeof PORTABLE_KEYS)[number];
 
 export function getConfigPath(): string {
-	return `/Users/${solNative.userName()}/.config/sol/config.json`;
+	return `/Users/${solNative.userName()}/.config/navia/config.json`;
 }
 
 export function readJsonConfig(): Record<string, any> | null {

@@ -26,7 +26,7 @@ export const Scripts: FC = observer(() => {
 					<Text className="text-xxs text-neutral-500 dark:text-neutral-400">
 						Scripts are located at{" "}
 						<Text className="font-bold">
-							/Users/{username}/.config/sol/scripts
+							/Users/{username}/.config/navia/scripts
 						</Text>
 						.
 					</Text>

@@ -1,4 +1,4 @@
-import { LegendList } from '@legendapp/list'
+import { LegendList } from '@legendapp/list/react-native'
 import { Assets, Icons } from 'assets'
 import clsx from 'clsx'
 import Favicon from 'components/Favicon'
@@ -39,6 +39,11 @@ function shortcutMatchesFilter(shortcut: string | undefined, filter: string): bo
 const RenderItem = observer(({ item, index }: any) => {
   const store = useStore()
   const itemShortcut = store.ui.shortcuts[item.id]
+  const itemAlias = store.ui.appAliases[item.id] ?? ''
+  const canEditAlias =
+    item.type === ItemType.APPLICATION ||
+    store.ui.apps.some(app => app.id === item.id || app.url === item.url) ||
+    item.url?.endsWith('.app')
   const isDisabled = store.ui.isItemDisabled(item.id)
 
   return (
@@ -94,9 +99,27 @@ const RenderItem = observer(({ item, index }: any) => {
           className="h-6 w-6"
         />
       )}
-      <Text className="flex-1" numberOfLines={1}>
-        {item.name}
-      </Text>
+      <View className="flex-1">
+        <Text numberOfLines={1}>
+          {item.name}
+        </Text>
+        <View className="flex-row items-center gap-2 mt-1 max-w-sm">
+          <Text className="text-xs darker-text w-10">Alias</Text>
+          <Input
+            bordered
+            className="flex-1"
+            value={canEditAlias ? itemAlias : ''}
+            onChangeText={text =>
+              store.ui.setAppAlias(item.id, text, item.url, item.name)
+            }
+            placeholder={canEditAlias ? 'Type alias' : 'Apps only'}
+            readOnly={!canEditAlias}
+            autoCorrect={false}
+            autoCapitalize="none"
+            clearButtonMode="while-editing"
+          />
+        </View>
+      </View>
       <TouchableWithoutFeedback
         onPress={() => {
           if (!isDisabled) {
@@ -225,8 +248,8 @@ export const Items = observer(() => {
           </View>
         )}
         <LegendList
-          className="flex-1"
-          contentContainerClassName="px-4 pb-4"
+          style={{ flex: 1 }}
+          contentContainerStyle={{ paddingHorizontal: 16, paddingBottom: 16 }}
           data={filteredItems}
           keyExtractor={item => item.id}
           renderItem={RenderItem}

@@ -1,2 +1,2 @@
-app_identifier("com.ospfranco.sol")
-apple_id("ospfranco@protonmail.com")
+app_identifier("com.tingkaichiu.navia")
+apple_id(ENV.fetch("FASTLANE_APPLE_ID", ""))

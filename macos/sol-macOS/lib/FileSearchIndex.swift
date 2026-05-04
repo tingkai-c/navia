@@ -14,12 +14,12 @@ class FileSearchIndex {
   
   private var db: OpaquePointer?
   private let dbPath: String
-  private let queue = DispatchQueue(label: "com.ospfranco.sol.filesearch.index")
+  private let queue = DispatchQueue(label: "com.tingkaichiu.navia.filesearch.index")
   
   init() {
     let paths = NSSearchPathForDirectoriesInDomains(.applicationSupportDirectory, .userDomainMask, true)
     let appSupportDir = paths[0]
-    let solDir = (appSupportDir as NSString).appendingPathComponent("Sol")
+    let solDir = (appSupportDir as NSString).appendingPathComponent("Navia")
     
     // Create directory if it doesn't exist
     try? FileManager.default.createDirectory(atPath: solDir, withIntermediateDirectories: true)

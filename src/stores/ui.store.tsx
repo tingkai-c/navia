@@ -119,6 +119,10 @@ const defaultSearchFolders = [
 	`/Users/${userName}/Music`,
 ];
 
+function normalizeAppAlias(alias: string) {
+	return alias.trim().replace(/\s+/g, " ").toLowerCase();
+}
+
 export type UIStore = ReturnType<typeof createUIStore>;
 type SearchEngine = "google" | "bing" | "duckduckgo" | "perplexity" | "custom";
 
@@ -229,6 +233,7 @@ export const createUIStore = (root: IRootStore) => {
 					store.customSearchUrl =
 						src.customSearchUrl ?? "https://google.com/search?q=%s";
 					store.shortcuts = src.shortcuts ?? defaultShortcuts;
+					store.appAliases = src.appAliases ?? {};
 					store.showInAppBrowserBookMarks =
 						src.showInAppBrowserBookMarks ?? true;
 					store.hasDismissedGettingStarted =
@@ -307,6 +312,8 @@ export const createUIStore = (root: IRootStore) => {
 					store.customSearchUrl = jsonConfig.customSearchUrl;
 				if (jsonConfig.shortcuts !== undefined)
 					store.shortcuts = jsonConfig.shortcuts;
+				if (jsonConfig.appAliases !== undefined)
+					store.appAliases = jsonConfig.appAliases;
 				if (jsonConfig.showInAppBrowserBookMarks !== undefined)
 					store.showInAppBrowserBookMarks =
 						jsonConfig.showInAppBrowserBookMarks;
@@ -382,6 +389,7 @@ export const createUIStore = (root: IRootStore) => {
 		scratchPadColor: ScratchPadColor.SYSTEM,
 		searchFolders: [] as string[],
 		shortcuts: defaultShortcuts as Record<string, string>,
+		appAliases: {} as Record<string, string>,
 		showInAppBrowserBookMarks: true,
 		hoveredEventId: null as string | null,
 		hasDismissedGettingStarted: false,
@@ -731,7 +739,7 @@ export const createUIStore = (root: IRootStore) => {
 					continue;
 				}
 
-				const alias = getInitials(name);
+				const alias = store.appAliases[url] ?? getInitials(name);
 				// const plistPath = decodeURIComponent(
 				//   url.replace('file://', '') + 'Contents/Info.plist',
 				// )
@@ -1126,6 +1134,35 @@ export const createUIStore = (root: IRootStore) => {
 		restoreDefaultShorcuts() {
 			store.shortcuts = defaultShortcuts;
 			solNative.updateHotkeys(defaultShortcuts);
+		},
+		setAppAlias: (itemId: string, alias: string, itemUrl?: string, itemName?: string) => {
+			const app = store.apps.find(
+				(item) =>
+					item.id === itemId ||
+					(itemUrl != null && item.url === itemUrl) ||
+					item.url === decodeURI(itemId.replace("file://", "")),
+			);
+			if (app == null && !itemUrl?.endsWith(".app")) {
+				return;
+			}
+
+			const aliasKey = app?.id ?? itemId;
+			const normalizedAlias = normalizeAppAlias(alias);
+			if (normalizedAlias) {
+				store.appAliases[aliasKey] = normalizedAlias;
+			} else {
+				delete store.appAliases[aliasKey];
+			}
+
+			if (app != null) {
+				app.alias = normalizedAlias || getInitials(app.name);
+			} else if (itemName != null) {
+				const visibleItem = store.items.find((item) => item.id === itemId);
+				if (visibleItem != null) {
+					visibleItem.alias = normalizedAlias || getInitials(itemName);
+				}
+			}
+			minisearch.removeAll();
 		},
 
 		setWindowHeight(e: LayoutChangeEvent) {

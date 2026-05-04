@@ -28,7 +28,7 @@ export const General = observer(() => {
 				<View className="flex-1">
 					<Text className="text-sm text">Open at Login</Text>
 					<Text className="text-xxs text-neutral-500 dark:text-neutral-400">
-						Launch Sol when your computer starts
+						Launch Navia when your computer starts
 					</Text>
 				</View>
 				<MySwitch
@@ -224,7 +224,7 @@ export const General = observer(() => {
 				<View className="flex-1">
 					<Text className="text-sm text">Reload Config</Text>
 					<Text className="text-xxs text-neutral-500 dark:text-neutral-400">
-						Re-read ~/.config/sol/config.json
+						Re-read ~/.config/navia/config.json
 					</Text>
 				</View>
 				<TouchableOpacity onPress={() => store.ui.reloadJsonConfig()}>

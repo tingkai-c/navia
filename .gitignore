@@ -67,6 +67,9 @@ env.json
 # Built binaries
 **/Sol.app
 **/Sol.app.zip
+**/Navia.app
+**/NaviaDebug.app
+macos/build-local/
 
 vendor
 

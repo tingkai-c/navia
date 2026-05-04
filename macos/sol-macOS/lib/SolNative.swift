@@ -2,7 +2,7 @@ import Foundation
 import HotKey
 import LaunchAtLogin
 
-private let keychain = Keychain(service: "Sol")
+private let keychain = Keychain(service: "Navia")
 
 @objc(SolNative)
 class SolNative: RCTEventEmitter {

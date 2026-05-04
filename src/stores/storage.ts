@@ -2,8 +2,8 @@ import { MMKV } from 'react-native-mmkv'
 import { solNative } from '../lib/SolNative'
 import { PORTABLE_KEYS, readJsonConfig, writeJsonConfig } from './config'
 
-const newStoragePath = `/Users/${solNative.userName()}/.config/sol`
-const scriptsPath = `/Users/${solNative.userName()}/.config/sol/scripts`
+const newStoragePath = `/Users/${solNative.userName()}/.config/navia`
+const scriptsPath = `/Users/${solNative.userName()}/.config/navia/scripts`
 const oldStoragePath = `/Users/${solNative.userName()}/Documents/mmkv`
 
 // Ensure new directory exists

@@ -4,7 +4,7 @@ import { ItemType } from "./ui.store";
 import type { IRootStore } from "store";
 
 const getScriptsPath = () =>
-	`/Users/${solNative.userName()}/.config/sol/scripts`;
+	`/Users/${solNative.userName()}/.config/navia/scripts`;
 
 function parseScriptMetadata(content: string, fileName: string) {
 	// Default values

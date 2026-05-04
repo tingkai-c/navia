@@ -5,7 +5,7 @@ platform :mac do
   lane :release do
 
     # check_apple_agreement(
-    #   apple_id: "ospfranco@protonmail.com",
+    #   apple_id: ENV["FASTLANE_APPLE_ID"],
     #   password: ENV["FASTLANE_PORTAL_PASSWORD"]
     # )
 
@@ -16,7 +16,7 @@ platform :mac do
     version = get_version_number(xcodeproj: "./macos/sol.xcodeproj")
 
     path = "/Users/osp/Developer/sol/"
-    appFileName = path + "Sol.app"
+    appFileName = path + "Navia.app"
     zipFileName = path + "releases/" + version + ".zip"
     
     gym(
@@ -30,8 +30,8 @@ platform :mac do
 
     notarize(
       package: appFileName,
-      bundle_id: "com.ospfranco.sol",
-      username: "ospfranco@protonmail.com",
+      bundle_id: "com.tingkaichiu.navia",
+      username: ENV["FASTLANE_APPLE_ID"],
       asc_provider: "24CMR7378R"
     )
 
@@ -42,7 +42,7 @@ platform :mac do
     )
 
     set_github_release(
-      repository_name: "ospfranco/sol",
+      repository_name: ENV.fetch("GITHUB_REPOSITORY", "tingkaichiu/navia"),
       api_token: ENV["GITHUB_API_TOKEN"],
       tag_name: version,
       is_generate_release_notes: true,
@@ -51,7 +51,7 @@ platform :mac do
 
     release_notes = lane_context[SharedValues::SET_GITHUB_RELEASE_JSON]["body"]
 
-    file_url = "https://github.com/ospfranco/sol/releases/download/" + version + "/" + version + ".zip"
+    file_url = "https://github.com/tingkaichiu/navia/releases/download/" + version + "/" + version + ".zip"
     
     
     Dir.chdir("..") do
@@ -68,8 +68,8 @@ platform :mac do
 
     sh("cp", "-R", appFileName, "/Applications/")
 
-    sh("open", "/Applications/Sol.app")
+    sh("open", "/Applications/Navia.app")
 
-    sh("pingme", "Sol " + version + " released")
+    sh("pingme", "Navia " + version + " released")
   end
 end

@@ -78,7 +78,7 @@
 /* Begin PBXFileReference section */
 		1194CEEB2780EBB1CE91CBEB /* libPods-macOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-macOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		434AA4134E3E6A10DF347D75 /* Pods-macOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-macOS.debug.xcconfig"; path = "Target Support Files/Pods-macOS/Pods-macOS.debug.xcconfig"; sourceTree = "<group>"; };
-		514201492437B4B30078DB4F /* sol-debug.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "sol-debug.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		514201492437B4B30078DB4F /* NaviaDebug.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NaviaDebug.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		514201512437B4B40078DB4F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		514201542437B4B40078DB4F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		514201562437B4B40078DB4F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -333,7 +333,7 @@
 		83CBBA001A601CBA00E9B192 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				514201492437B4B30078DB4F /* sol-debug.app */,
+				514201492437B4B30078DB4F /* NaviaDebug.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -366,7 +366,7 @@
 				7065EBBE2CDB8C2B008C0A74 /* LaunchAtLogin */,
 			);
 			productName = sol;
-			productReference = 514201492437B4B30078DB4F /* sol-debug.app */;
+			productReference = 514201492437B4B30078DB4F /* NaviaDebug.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -542,7 +542,6 @@
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-macOS/Pods-macOS-resources.sh",
-				"${PODS_CONFIGURATION_BUILD_DIR}/MMKV/MMKV_Privacy.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/RCT-Folly/RCT-Folly_privacy.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/RNCAsyncStorage/RNCAsyncStorage_resources.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/React-Core/React-Core_privacy.bundle",
@@ -553,7 +552,6 @@
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MMKV_Privacy.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/RCT-Folly_privacy.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/RNCAsyncStorage_resources.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/React-Core_privacy.bundle",
@@ -681,11 +679,11 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
-				DEVELOPMENT_TEAM = 24CMR7378R;
+				DEVELOPMENT_TEAM = 3NX9YQA562;
 				ENABLE_HARDENED_RUNTIME = YES;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "i386 arm64";
 				INFOPLIST_FILE = "sol-macos/Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = SolDebug;
+				INFOPLIST_KEY_CFBundleDisplayName = NaviaDebug;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -697,8 +695,8 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.ospfranco.sol.debug;
-				PRODUCT_NAME = "sol-debug";
+				PRODUCT_BUNDLE_IDENTIFIER = com.tingkaichiu.navia.debug;
+				PRODUCT_NAME = NaviaDebug;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = macosx;
 				SWIFT_ACTIVE_COMPILATION_SETTINGS = DEBUG;
@@ -721,7 +719,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
-				DEVELOPMENT_TEAM = 24CMR7378R;
+				DEVELOPMENT_TEAM = 3NX9YQA562;
 				ENABLE_HARDENED_RUNTIME = YES;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "i386 arm64";
 				INFOPLIST_FILE = "sol-macos/Info.plist";
@@ -736,8 +734,8 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.ospfranco.sol;
-				PRODUCT_NAME = sol;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tingkaichiu.navia;
+				PRODUCT_NAME = Navia;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = macosx;
 				SWIFT_ACTIVE_COMPILATION_SETTINGS = "";
