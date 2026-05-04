@@ -164,7 +164,7 @@ export const General = observer(() => {
 									store.ui.addSearchFolder(path);
 								}
 								solNative.showWindow();
-							} catch (e) {}
+							} catch (_e) {}
 						}}
 					>
 						<Text className="text-blue-500">Add folder</Text>
