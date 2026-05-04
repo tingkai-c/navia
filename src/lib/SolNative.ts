@@ -23,6 +23,7 @@ class SolNative extends NativeEventEmitter {
 		| undefined
 	>;
 	setGlobalShortcut: (key: "command" | "option" | "control") => void;
+	setAutoSwitchEnglishInputOnHotkey: (enabled: boolean) => void;
 	getCalendarAuthorizationStatus: typeof global.__SolProxy.getCalendarAuthorizationStatus;
 	requestCalendarAccess: () => Promise<void>;
 	requestAccessibilityAccess: () => Promise<void>;
@@ -134,6 +135,8 @@ class SolNative extends NativeEventEmitter {
 		this.openWithFinder = module.openWithFinder;
 		this.getMediaInfo = module.getMediaInfo;
 		this.setGlobalShortcut = module.setGlobalShortcut;
+		this.setAutoSwitchEnglishInputOnHotkey =
+			module.setAutoSwitchEnglishInputOnHotkey;
 		this.getCalendarAuthorizationStatus =
 			global.__SolProxy.getCalendarAuthorizationStatus;
 		this.requestAccessibilityAccess = module.requestAccessibilityAccess;

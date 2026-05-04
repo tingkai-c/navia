@@ -53,6 +53,20 @@ export const General = observer(() => {
 					/>
 				</View>
 				<View className="border-t border-lightBorder dark:border-darkBorder" />
+				<View className="flex-row items-center">
+					<View className="flex-1">
+						<Text className="text-sm text">Switch to English on hotkey</Text>
+						<Text className="text-xxs text-neutral-500 dark:text-neutral-400">
+							When Navia opens from the global shortcut, use an English input
+							source until it closes.
+						</Text>
+					</View>
+					<MySwitch
+						value={store.ui.autoSwitchEnglishInputOnHotkey}
+						onValueChange={store.ui.setAutoSwitchEnglishInputOnHotkey}
+					/>
+				</View>
+				<View className="border-t border-lightBorder dark:border-darkBorder" />
 				<View className="flex-row items-center z-20">
 					<Text className="flex-1">Search Engine</Text>
 					<Dropdown

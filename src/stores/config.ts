@@ -5,6 +5,7 @@ export const PORTABLE_KEYS = [
 	"secondTranslationLanguage",
 	"thirdTranslationLanguage",
 	"globalShortcut",
+	"autoSwitchEnglishInputOnHotkey",
 	"showWindowOn",
 	"calendarEnabled",
 	"showAllDayEvents",

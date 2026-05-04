@@ -220,6 +220,8 @@ export const createUIStore = (root: IRootStore) => {
 					store.thirdTranslationLanguage = src.thirdTranslationLanguage ?? null;
 					store.customItems = src.customItems ?? [];
 					store.globalShortcut = src.globalShortcut;
+					store.autoSwitchEnglishInputOnHotkey =
+						src.autoSwitchEnglishInputOnHotkey ?? false;
 					store.showWindowOn = src.showWindowOn ?? "screenWithFrontmost";
 					store.calendarEnabled = src.calendarEnabled ?? true;
 					store.showAllDayEvents = src.showAllDayEvents ?? true;
@@ -256,6 +258,9 @@ export const createUIStore = (root: IRootStore) => {
 
 				solNative.setLaunchAtLogin(src.launchAtLogin ?? true);
 				solNative.setGlobalShortcut(src.globalShortcut);
+				solNative.setAutoSwitchEnglishInputOnHotkey(
+					store.autoSwitchEnglishInputOnHotkey,
+				);
 				solNative.setShowWindowOn(src.showWindowOn ?? "screenWithFrontmost");
 				solNative.setMediaKeyForwardingEnabled(store.mediaKeyForwardingEnabled);
 				solNative.setHyperKeyEnabled(store.hyperKeyEnabled);
@@ -289,6 +294,9 @@ export const createUIStore = (root: IRootStore) => {
 					store.thirdTranslationLanguage = jsonConfig.thirdTranslationLanguage;
 				if (jsonConfig.globalShortcut !== undefined)
 					store.globalShortcut = jsonConfig.globalShortcut;
+				if (jsonConfig.autoSwitchEnglishInputOnHotkey !== undefined)
+					store.autoSwitchEnglishInputOnHotkey =
+						jsonConfig.autoSwitchEnglishInputOnHotkey;
 				if (jsonConfig.showWindowOn !== undefined)
 					store.showWindowOn = jsonConfig.showWindowOn;
 				if (jsonConfig.calendarEnabled !== undefined)
@@ -327,6 +335,9 @@ export const createUIStore = (root: IRootStore) => {
 			// Re-apply native side effects
 			solNative.setLaunchAtLogin(store.launchAtLogin);
 			solNative.setGlobalShortcut(store.globalShortcut);
+			solNative.setAutoSwitchEnglishInputOnHotkey(
+				store.autoSwitchEnglishInputOnHotkey,
+			);
 			solNative.setShowWindowOn(store.showWindowOn);
 			solNative.setMediaKeyForwardingEnabled(store.mediaKeyForwardingEnabled);
 			solNative.setHyperKeyEnabled(store.hyperKeyEnabled);
@@ -353,6 +364,7 @@ export const createUIStore = (root: IRootStore) => {
 		searchEngine: "google" as SearchEngine,
 		customSearchUrl: "https://google.com/search?q=%s" as string,
 		globalShortcut: "option" as "command" | "option" | "control",
+		autoSwitchEnglishInputOnHotkey: false,
 		scratchpadShortcut: "command" as "command" | "option" | "none",
 		clipboardManagerShortcut: "shift" as "shift" | "option" | "none",
 		showWindowOn: "screenWithFrontmost" as
@@ -644,6 +656,10 @@ export const createUIStore = (root: IRootStore) => {
 		setGlobalShortcut: (key: "command" | "option" | "control") => {
 			solNative.setGlobalShortcut(key);
 			store.globalShortcut = key;
+		},
+		setAutoSwitchEnglishInputOnHotkey: (enabled: boolean) => {
+			store.autoSwitchEnglishInputOnHotkey = enabled;
+			solNative.setAutoSwitchEnglishInputOnHotkey(enabled);
 		},
 		setShowWindowOn: (on: "screenWithFrontmost" | "screenWithCursor") => {
 			solNative.setShowWindowOn(on);
