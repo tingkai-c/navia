@@ -1,6 +1,6 @@
 import { KeyboardShortcutRecorderView } from "components/KeyboardShortcutRecorderView";
 import { observer } from "mobx-react-lite";
-import { type FC, useState } from "react";
+import type { FC } from "react";
 import { View } from "react-native";
 import { useStore } from "store";
 import { About } from "./settings/about";
@@ -11,21 +11,16 @@ import { Scripts } from "./settings/scripts";
 import { Sidebar } from "./settings/sidebar";
 import { Translate } from "./settings/translate";
 
-type ITEM =
-	| "ABOUT"
-	| "GENERAL"
-	| "TRANSLATE"
-	| "ITEMS"
-	| "SCRIPTS"
-	| "CALENDARS";
-
 export const SettingsWidget: FC = observer(() => {
 	const store = useStore();
 	const showKeyboardRecorder = store.ui.showKeyboardRecorder;
-	const [selected, setSelected] = useState<ITEM>("GENERAL");
+	const selected = store.ui.selectedSettingsSection;
 	return (
 		<View className="flex-1 flex-row">
-			<Sidebar setSelected={setSelected as any} selected={selected} />
+			<Sidebar
+				setSelected={store.ui.setSelectedSettingsSection}
+				selected={selected}
+			/>
 			<View className="flex-1 h-full bg-neutral-100 dark:bg-neutral-800">
 				{selected === "GENERAL" && <General />}
 				{selected === "ITEMS" && <Items />}

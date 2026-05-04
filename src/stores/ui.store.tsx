@@ -4,6 +4,11 @@ import { Assets } from "assets";
 import { Parser } from "expr-eval";
 import { CONSTANTS } from "lib/constants";
 import { solNative } from "lib/SolNative";
+import {
+	DEFAULT_SETTINGS_SECTION,
+	getAdjacentSettingsSection,
+	type SettingsSection,
+} from "lib/settingsSections";
 import { defaultShortcuts } from "lib/shortcuts";
 import { googleTranslate } from "lib/translator";
 import MiniSearch from "minisearch";
@@ -372,6 +377,7 @@ export const createUIStore = (root: IRootStore) => {
 			| "screenWithCursor",
 		query: "",
 		selectedIndex: 0,
+		selectedSettingsSection: DEFAULT_SETTINGS_SECTION,
 		focusedWidget: Widget.SEARCH,
 		events: [] as INativeEvent[],
 		customItems: [] as Item[],
@@ -566,7 +572,23 @@ export const createUIStore = (root: IRootStore) => {
 		},
 		showSettings: () => {
 			store.setQuery("");
+			store.setSelectedSettingsSection(DEFAULT_SETTINGS_SECTION);
 			store.focusWidget(Widget.SETTINGS);
+		},
+		setSelectedSettingsSection: (section: SettingsSection) => {
+			store.selectedSettingsSection = section;
+		},
+		selectPreviousSettingsSection: () => {
+			store.selectedSettingsSection = getAdjacentSettingsSection(
+				store.selectedSettingsSection,
+				"previous",
+			);
+		},
+		selectNextSettingsSection: () => {
+			store.selectedSettingsSection = getAdjacentSettingsSection(
+				store.selectedSettingsSection,
+				"next",
+			);
 		},
 		setSelectedIndex: (idx: number) => {
 			store.selectedIndex = idx;
