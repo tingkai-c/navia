@@ -1,0 +1,68 @@
+<?xml version="1.0" standalone="yes"?>
+<rss xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle" version="2.0">
+    <channel>
+        <title>Sol</title>
+        <item>
+            <title>2.1.331</title>
+            <description><![CDATA[**Full Changelog**: https://github.com/ospfranco/sol/compare/2.1.330...2.1.331]]></description>
+            <pubDate>Sat, 02 May 2026 18:17:26 -0400</pubDate>
+            <sparkle:version>540</sparkle:version>
+            <sparkle:shortVersionString>2.1.331</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
+            <enclosure url="https://github.com/ospfranco/sol/releases/download/2.1.331/2.1.331.zip" length="15191250" type="application/octet-stream" sparkle:edSignature="7sg7no8bKk+lnbrhioKmWWP5fCQkXPqgibM/hiAabUjDpAWtPG+jVTUk0aRHPyZDxjpwo4QyAWH2SPpBSwicCA=="/>
+        </item>
+        <item>
+            <title>2.1.330</title>
+            <description><![CDATA[**Full Changelog**: https://github.com/ospfranco/sol/compare/2.1.329...2.1.330]]></description>
+            <pubDate>Tue, 21 Apr 2026 11:16:01 -0400</pubDate>
+            <sparkle:version>539</sparkle:version>
+            <sparkle:shortVersionString>2.1.330</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
+            <enclosure url="https://github.com/ospfranco/sol/releases/download/2.1.330/2.1.330.zip" length="15193732" type="application/octet-stream" sparkle:edSignature="BDp1Ye90ViSc7lcGq5VHQL9roDhi6VF+P30NXQsKeE+jGbVaZ69I/WHMBZv1qflPs5VKqY54HJr7STzBF3q1Aw=="/>
+        </item>
+        <item>
+            <title>2.1.322</title>
+            <description><![CDATA[**Full Changelog**: https://github.com/ospfranco/sol/compare/2.1.321...2.1.322]]></description>
+            <pubDate>Fri, 17 Apr 2026 10:49:07 -0400</pubDate>
+            <sparkle:version>536</sparkle:version>
+            <sparkle:shortVersionString>2.1.322</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
+            <enclosure url="https://github.com/ospfranco/sol/releases/download/2.1.322/2.1.322.zip" length="15193744" type="application/octet-stream" sparkle:edSignature="UB3GkJQQFZNsVvQ9KFsM8ku/mIWv3cE6ZuggWXo1/nkn1pyDcgprdLFHYkIvUkm+idYCXRXnU0qsUk4i8qgUDw=="/>
+        </item>
+        <item>
+            <title>2.1.312</title>
+            <description><![CDATA[**Full Changelog**: https://github.com/ospfranco/sol/compare/2.1.311...2.1.312]]></description>
+            <pubDate>Sun, 29 Mar 2026 15:46:34 +0200</pubDate>
+            <sparkle:version>526</sparkle:version>
+            <sparkle:shortVersionString>2.1.312</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
+            <enclosure url="https://github.com/ospfranco/sol/releases/download/2.1.312/2.1.312.zip" length="14506487" type="application/octet-stream" sparkle:edSignature="nC8o1091NOGS3yKOSGAQfFW3XT70k7yDzJ31Cht5De/xPBoHGNIkoKWTqNcB7n4yGQVMf1JGwMFljlIy14ngDg=="/>
+        </item>
+        <item>
+            <title>2.1.311</title>
+            <description><![CDATA[## What's Changed
+* Unit, time conversions and flight searchs by @ospfranco in https://github.com/ospfranco/sol/pull/259
+
+
+**Full Changelog**: https://github.com/ospfranco/sol/compare/2.1.310...2.1.311]]></description>
+            <pubDate>Sun, 22 Mar 2026 17:10:02 +0100</pubDate>
+            <sparkle:version>525</sparkle:version>
+            <sparkle:shortVersionString>2.1.311</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
+            <enclosure url="https://github.com/ospfranco/sol/releases/download/2.1.311/2.1.311.zip" length="14370102" type="application/octet-stream" sparkle:edSignature="raslO9eOrKN/SsFxMKlASBWTCIjUYXUXzVjw721n99XwAnuUwjD0qKjyylSHhEcW09G6ZGzUb+5w/kKInfYqDw=="/>
+        </item>
+        <item>
+            <title>2.1.310</title>
+            <description><![CDATA[## What's Changed
+* Do not dismiss window to prevent RN from resetting it's state by @ospfranco in https://github.com/ospfranco/sol/pull/258
+
+
+**Full Changelog**: https://github.com/ospfranco/sol/compare/2.1.309...2.1.310]]></description>
+            <pubDate>Fri, 20 Mar 2026 16:34:43 +0100</pubDate>
+            <sparkle:version>524</sparkle:version>
+            <sparkle:shortVersionString>2.1.310</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
+            <enclosure url="https://github.com/ospfranco/sol/releases/download/2.1.310/2.1.310.zip" length="14287880" type="application/octet-stream" sparkle:edSignature="zDjlPLkGI11gv5WIdv+HOYFyl56qvKV6TJk08gNMfQwfrDgpYwk7I9yZWmrKGmSsuNSE3JBnoajvm4HklwmHCw=="/>
+        </item>
+    </channel>
+</rss>
