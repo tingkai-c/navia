@@ -16,14 +16,15 @@ enum PreferredScreen {
     self.rootView = rootView
   }
 
-  @objc func showWindow(target: String? = nil) {
+  @discardableResult
+  @objc func showWindow(target: String? = nil) -> Bool {
     HotKeyManager.shared.settingsHotKey.isPaused = false
 
     guard
       let screen =
         (preferredScreen == .frontmost ? getFrontmostScreen() : getScreenWithMouse())
     else {
-      return
+      return false
     }
 
     let yOffset = screen.visibleFrame.height * 0.3
@@ -36,11 +37,13 @@ enum PreferredScreen {
     mainWindow.makeKeyAndOrderFront(self)
 
     SolEmitter.sharedInstance.onShow(target: nil)
+    return true
   }
 
   @objc func hideWindow() {
     mainWindow.setIsVisible(false)
     SolEmitter.sharedInstance.onHide()
+    InputSourceManager.shared.restoreAfterHotkeySessionIfNeeded()
     HotKeyManager.shared.settingsHotKey.isPaused = true
   }
 
@@ -99,6 +102,18 @@ enum PreferredScreen {
       hideWindow()
     } else {
       showWindow()
+    }
+  }
+
+  func toggleFromGlobalHotkey() {
+    if mainWindow.isVisible {
+      hideWindow()
+      return
+    }
+
+    InputSourceManager.shared.beginHotkeySessionIfNeeded()
+    if !showWindow() {
+      InputSourceManager.shared.rollbackHotkeySessionIfNeeded()
     }
   }
 

@@ -53,6 +53,7 @@
 		70A25D492D33B9CF00165270 /* ToastManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A25D482D33B9C500165270 /* ToastManager.swift */; };
 		70A25D4B2D33E15E00165270 /* StatusBarItemManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A25D4A2D33E15800165270 /* StatusBarItemManager.swift */; };
 		70A25D4C2D3A000000165270 /* StatusBarCalendarManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A25D4D2D3A000000165270 /* StatusBarCalendarManager.swift */; };
+		70A25D4F2D3A100000165270 /* InputSourceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A25D4E2D3A100000165270 /* InputSourceManager.swift */; };
 		70AAC12029F7AB9B004AD3E7 /* GradientView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70AAC11F29F7AB9B004AD3E7 /* GradientView.m */; };
 		70AAC12229F7AC17004AD3E7 /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70AAC12129F7AC17004AD3E7 /* GradientView.swift */; };
 		70B2D5902824254B0005D80A /* WindowManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70B2D58F2824254B0005D80A /* WindowManager.swift */; };
@@ -133,6 +134,7 @@
 		70A25D482D33B9C500165270 /* ToastManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastManager.swift; sourceTree = "<group>"; };
 		70A25D4A2D33E15800165270 /* StatusBarItemManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusBarItemManager.swift; sourceTree = "<group>"; };
 		70A25D4D2D3A000000165270 /* StatusBarCalendarManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusBarCalendarManager.swift; sourceTree = "<group>"; };
+		70A25D4E2D3A100000165270 /* InputSourceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputSourceManager.swift; sourceTree = "<group>"; };
 		70AAC11F29F7AB9B004AD3E7 /* GradientView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GradientView.m; sourceTree = "<group>"; };
 		70AAC12129F7AC17004AD3E7 /* GradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
 		70B2D58F2824254B0005D80A /* WindowManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowManager.swift; sourceTree = "<group>"; };
@@ -261,6 +263,7 @@
 				70A25D4A2D33E15800165270 /* StatusBarItemManager.swift */,
 				70A25D4D2D3A000000165270 /* StatusBarCalendarManager.swift */,
 				70A25D482D33B9C500165270 /* ToastManager.swift */,
+				70A25D4E2D3A100000165270 /* InputSourceManager.swift */,
 				70A25D462D33B4D300165270 /* HotKeyManager.swift */,
 				70A25D442D33AF3E00165270 /* PanelManager.swift */,
 			);
@@ -640,6 +643,7 @@
 				70EFF77428D5F732009FE998 /* DoNotDisturb.swift in Sources */,
 				7042A22A2815C06B00874743 /* NSColor.extension.swift in Sources */,
 				70A25D492D33B9CF00165270 /* ToastManager.swift in Sources */,
+				70A25D4F2D3A100000165270 /* InputSourceManager.swift in Sources */,
 				703EB24D2BED4E1E00F7B391 /* NSString+Score.m in Sources */,
 				70E15D082931FC57007FFE5F /* FS.swift in Sources */,
 				700DF99A28266F0B00C5FD0B /* ClipboardHelper.swift in Sources */,
