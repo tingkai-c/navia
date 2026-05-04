@@ -81,3 +81,8 @@ Sol.app.zip
 Sol.app copy.zip
 sentry.properties
 releases/*.zip
+
+# macOS CocoaPods
+/macos/Pods/
+/node_modules
+/macos/Pods
