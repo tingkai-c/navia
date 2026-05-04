@@ -26,7 +26,7 @@ final class HotKeyManager {
     settingsHotKey.keyUpHandler = {
       SolEmitter.sharedInstance.onShow(target: "SETTINGS")
     }
-    mainHotKey.keyUpHandler = PanelManager.shared.toggle
+    mainHotKey.keyDownHandler = PanelManager.shared.toggleFromGlobalHotkey
 
     NSEvent.addLocalMonitorForEvents(matching: .keyDown) {
       // 36 enter

@@ -167,19 +167,19 @@ class SolNative: RCTEventEmitter {
       HotKeyManager.shared.mainHotKey = HotKey(
         key: .space,
         modifiers: [.command],
-        keyDownHandler: PanelManager.shared.toggle
+        keyDownHandler: PanelManager.shared.toggleFromGlobalHotkey
       )
     } else if key == "option" {
       HotKeyManager.shared.mainHotKey = HotKey(
         key: .space,
         modifiers: [.option],
-        keyDownHandler: PanelManager.shared.toggle
+        keyDownHandler: PanelManager.shared.toggleFromGlobalHotkey
       )
     } else if key == "control" {
       HotKeyManager.shared.mainHotKey = HotKey(
         key: .space,
         modifiers: [.control],
-        keyDownHandler: PanelManager.shared.toggle
+        keyDownHandler: PanelManager.shared.toggleFromGlobalHotkey
       )
     }
   }
@@ -206,6 +206,10 @@ class SolNative: RCTEventEmitter {
     if LaunchAtLogin.isEnabled != enabled {
       LaunchAtLogin.isEnabled = enabled
     }
+  }
+
+  @objc func setAutoSwitchEnglishInputOnHotkey(_ enabled: Bool) {
+    InputSourceManager.shared.setAutoSwitchEnglishInputOnHotkey(enabled)
   }
 
   @objc func resizeFrontmostTopHalf() {
