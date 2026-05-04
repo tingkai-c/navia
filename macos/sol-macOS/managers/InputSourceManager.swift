@@ -1,6 +1,11 @@
 import Carbon
 import Foundation
 
+private func tisString(_ value: CFString?) -> String? {
+  guard let value else { return nil }
+  return value as String
+}
+
 private struct ManagedInputSourceSession {
   let previousSource: TISInputSource
   let previousID: String
@@ -33,16 +38,19 @@ private struct EnglishInputSourceCandidate {
   }
 
   var typeRank: Int {
-    switch sourceType {
-    case kTISTypeKeyboardLayout as String:
+    if sourceType == tisString(kTISTypeKeyboardLayout) {
       return 0
-    case kTISTypeKeyboardInputMode as String:
-      return 1
-    case kTISTypeKeyboardInputMethodWithoutModes as String:
-      return 2
-    default:
-      return 3
     }
+
+    if sourceType == tisString(kTISTypeKeyboardInputMode) {
+      return 1
+    }
+
+    if sourceType == tisString(kTISTypeKeyboardInputMethodWithoutModes) {
+      return 2
+    }
+
+    return 3
   }
 }
 
@@ -153,10 +161,9 @@ final class InputSourceManager {
   }
 
   private static func englishCandidates() -> [EnglishInputSourceCandidate] {
-    let sourceList = TISCreateInputSourceList(nil, false).takeRetainedValue() as NSArray
+    let sourceList = TISCreateInputSourceList(nil, false).takeRetainedValue() as! [TISInputSource]
 
-    return sourceList.compactMap { item -> EnglishInputSourceCandidate? in
-      guard let source = item as? TISInputSource else { return nil }
+    return sourceList.compactMap { source -> EnglishInputSourceCandidate? in
       guard isSelectableKeyboardSource(source), isEnglishSource(source) else { return nil }
       guard let id = inputSourceID(source) else { return nil }
 
@@ -185,7 +192,7 @@ final class InputSourceManager {
   }
 
   private static func isSelectableKeyboardSource(_ source: TISInputSource) -> Bool {
-    guard stringProperty(source, kTISPropertyInputSourceCategory) == kTISCategoryKeyboardInputSource as String
+    guard stringProperty(source, kTISPropertyInputSourceCategory) == tisString(kTISCategoryKeyboardInputSource)
     else { return false }
 
     return boolProperty(source, kTISPropertyInputSourceIsSelectCapable)
@@ -221,4 +228,5 @@ final class InputSourceManager {
     }
     return false
   }
+
 }
