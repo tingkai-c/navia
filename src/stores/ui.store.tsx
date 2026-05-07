@@ -325,6 +325,9 @@ export const createUIStore = (root: IRootStore) => {
 				if (jsonConfig.showInAppBrowserBookMarks !== undefined)
 					store.showInAppBrowserBookMarks =
 						jsonConfig.showInAppBrowserBookMarks;
+				if (jsonConfig.hasDismissedGettingStarted !== undefined)
+					store.hasDismissedGettingStarted =
+						jsonConfig.hasDismissedGettingStarted;
 				if (jsonConfig.hyperKeyEnabled !== undefined)
 					store.hyperKeyEnabled = jsonConfig.hyperKeyEnabled;
 				if (jsonConfig.customItems !== undefined)
