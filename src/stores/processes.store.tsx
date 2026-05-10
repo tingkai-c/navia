@@ -1,5 +1,6 @@
 import {FUSE_OPTIONS} from 'config'
 import Fuse from 'fuse.js'
+import {normalizeQueryForMatching} from 'lib/queryNormalization'
 import {solNative} from 'lib/SolNative'
 import {makeAutoObservable} from 'mobx'
 import {IRootStore} from 'store'
@@ -35,7 +36,8 @@ export const createProcessesStore = (root: IRootStore) => {
     //                        | |
     //                        |_|
     get filteredProcesses() {
-      if (!root.ui.query) return store.processes
+      const normalizedQuery = normalizeQueryForMatching(root.ui.query)
+      if (!normalizedQuery) return store.processes
 
       let results = new Fuse(store.processes, {
         ...FUSE_OPTIONS,
@@ -44,7 +46,7 @@ export const createProcessesStore = (root: IRootStore) => {
         //   return a.item['mem'] - b.item['mem']
         // },
       })
-        .search(root.ui.query)
+        .search(normalizedQuery)
         .map(r => r.item)
 
       return results

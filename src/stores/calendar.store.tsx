@@ -1,6 +1,7 @@
-import { captureException } from "@sentry/react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { captureException } from "@sentry/react-native";
 import { extractMeetingLink } from "lib/calendar";
+import { normalizeQueryForMatching } from "lib/queryNormalization";
 import { solNative } from "lib/SolNative";
 import { DateTime } from "luxon";
 import { autorun, makeAutoObservable, runInAction, toJS } from "mobx";
@@ -163,7 +164,14 @@ export const createCalendarStore = (root: IRootStore) => {
 			const events = store.events;
 			return events.filter((e) => {
 				if (root.ui.query) {
-					return e.title?.toLowerCase().includes(root.ui.query.toLowerCase());
+					const normalizedQuery = normalizeQueryForMatching(
+						root.ui.query,
+					).toLowerCase();
+					return normalizedQuery
+						? normalizeQueryForMatching(e.title ?? "")
+								.toLowerCase()
+								.includes(normalizedQuery)
+						: false;
 				}
 				const notFiltered = e.status !== 3 && !e.declined;
 

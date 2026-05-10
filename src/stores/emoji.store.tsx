@@ -1,9 +1,10 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import {normalizeQueryForMatching, tokenizeQueryText} from 'lib/queryNormalization'
+import {solNative} from 'lib/SolNative'
+import MiniSearch from 'minisearch'
 import {autorun, makeAutoObservable, runInAction, toJS} from 'mobx'
 import {IRootStore} from 'store'
 import {emojis as rawEmojis_} from '../lib/emojis'
-import {solNative} from 'lib/SolNative'
-import MiniSearch from 'minisearch'
 import {storage} from './storage'
 
 let rawEmojis = rawEmojis_.map((emoji: any, idx) => ({id: idx, ...emoji}))
@@ -24,6 +25,7 @@ let minisearch = new MiniSearch({
     fuzzy: 0.2,
     boost: { description: 2, aliases: 1.5, tags: 1 }
   },
+  tokenize: (text: string, _fieldName?: string) => tokenizeQueryText(text),
 })
 
 minisearch.addAll(rawEmojis)
@@ -101,7 +103,7 @@ export const createEmojiStore = (root: IRootStore) => {
     //                        | |
     //                        |_|
     get emojis(): Emoji[][] {
-      const query = root.ui.query
+      const query = normalizeQueryForMatching(root.ui.query)
       let searchResults = query
         ? groupEmojis(minisearch.search(query) as any)
         : groupEmojis(rawEmojis)
@@ -139,9 +141,9 @@ export const createEmojiStore = (root: IRootStore) => {
         ([_, freq1], [_2, freq2]) => freq2 - freq1,
       )
 
-      const query = root.ui.query
+      const query = normalizeQueryForMatching(root.ui.query)
 
-      const data = !!query ? minisearch.search(query) : rawEmojis
+      const data = query ? minisearch.search(query) : rawEmojis
 
       let emoji = data[index]
       if (!emoji) {

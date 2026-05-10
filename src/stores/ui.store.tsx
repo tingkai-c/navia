@@ -3,6 +3,10 @@ import * as Sentry from "@sentry/react-native";
 import { Assets } from "assets";
 import { Parser } from "expr-eval";
 import { CONSTANTS } from "lib/constants";
+import {
+	normalizeQueryForMatching,
+	tokenizeQueryText,
+} from "lib/queryNormalization";
 import { solNative } from "lib/SolNative";
 import { defaultShortcuts } from "lib/shortcuts";
 import { googleTranslate } from "lib/translator";
@@ -105,8 +109,7 @@ const minisearch = new MiniSearch({
 		"bookmarkFolder",
 		"faviconFallback",
 	],
-	tokenize: (text: string, _fieldName?: string) =>
-		text.toLowerCase().split(/[\s.-]+/),
+	tokenize: (text: string, _fieldName?: string) => tokenizeQueryText(text),
 });
 
 const userName = solNative.userName();
@@ -429,7 +432,8 @@ export const createUIStore = (root: IRootStore) => {
 			return store.indexedFileResults;
 		},
 		runFileSearch: async (query: string) => {
-			if (!query || store.focusedWidget !== Widget.FILE_SEARCH) {
+			const normalizedQuery = normalizeQueryForMatching(query);
+			if (!normalizedQuery || store.focusedWidget !== Widget.FILE_SEARCH) {
 				runInAction(() => {
 					store.indexedFileResults = [];
 					store.isLoading = false;
@@ -439,7 +443,7 @@ export const createUIStore = (root: IRootStore) => {
 			runInAction(() => {
 				store.isLoading = true;
 			});
-			const results = await solNative.searchFilesIndexed(query);
+			const results = await solNative.searchFilesIndexed(normalizedQuery);
 			runInAction(() => {
 				store.indexedFileResults = results.map((f) => ({
 					id: f.path,
@@ -451,6 +455,7 @@ export const createUIStore = (root: IRootStore) => {
 			});
 		},
 		get items(): Item[] {
+			const normalizedQuery = normalizeQueryForMatching(store.query);
 			const allItems = [
 				...store.apps,
 				...baseItems,
@@ -460,7 +465,7 @@ export const createUIStore = (root: IRootStore) => {
 			];
 
 			// If the query is empty, return all items
-			if (!store.query) {
+			if (!normalizedQuery) {
 				return allItems.sort((a, b) =>
 					a.name.toLowerCase() > b.name.toLowerCase() ? 1 : -1,
 				);
@@ -478,7 +483,7 @@ export const createUIStore = (root: IRootStore) => {
 
 			const maxFreq = Math.max(...Object.values(store.frequencies));
 
-			const results: Item[] = minisearch.search(store.query, {
+			const results: Item[] = minisearch.search(normalizedQuery, {
 				boost: {
 					name: 2,
 				},
@@ -507,7 +512,7 @@ export const createUIStore = (root: IRootStore) => {
 				: [];
 
 			const finalResults: Item[] = [
-				...(CONSTANTS.LESS_VALID_URL.test(store.query)
+				...(CONSTANTS.LESS_VALID_URL.test(normalizedQuery)
 					? [
 							{
 								id: "open_url",
@@ -515,10 +520,10 @@ export const createUIStore = (root: IRootStore) => {
 								name: "Open URL",
 								icon: "🌎",
 								callback: () => {
-									if (store.query.startsWith("https://")) {
-										Linking.openURL(store.query);
+									if (normalizedQuery.startsWith("https://")) {
+										Linking.openURL(normalizedQuery);
 									} else {
-										Linking.openURL(`https://${store.query}`);
+										Linking.openURL(`https://${normalizedQuery}`);
 									}
 								},
 							},
@@ -624,7 +629,7 @@ export const createUIStore = (root: IRootStore) => {
 					store.firstTranslationLanguage,
 					store.secondTranslationLanguage,
 					store.thirdTranslationLanguage,
-					store.query,
+					normalizeQueryForMatching(store.query),
 				);
 
 				runInAction(() => {
@@ -679,25 +684,26 @@ export const createUIStore = (root: IRootStore) => {
 			store.query = query.replace("\n", " ");
 			store.selectedIndex = 0;
 			store.temporaryResult = null;
+			const normalizedQuery = normalizeQueryForMatching(store.query);
 
 			if (store.query === "") {
 				return;
 			}
 
 			if (store.focusedWidget === Widget.SEARCH) {
-				const timezoneResult = parseTimezoneConversion(store.query);
+				const timezoneResult = parseTimezoneConversion(normalizedQuery);
 				if (timezoneResult != null) {
 					store.temporaryResult = timezoneResult;
 					return;
 				}
 
-				const unitResult = parseUnitConversion(store.query);
+				const unitResult = parseUnitConversion(normalizedQuery);
 				if (unitResult != null) {
 					store.temporaryResult = unitResult;
 					return;
 				}
 
-				const flightIdentifier = parseFlightIdentifier(store.query);
+				const flightIdentifier = parseFlightIdentifier(normalizedQuery);
 				if (flightIdentifier != null) {
 					const querySnapshot = store.query;
 					void fetchFlightInfoFromWeb(flightIdentifier)
@@ -721,7 +727,7 @@ export const createUIStore = (root: IRootStore) => {
 				}
 
 				try {
-					const res = exprParser.evaluate(store.query);
+					const res = exprParser.evaluate(normalizedQuery);
 					if (typeof res === "number" && !Number.isNaN(res)) {
 						store.temporaryResult = createTextTemporaryResult(
 							formatExpressionResult(res),
@@ -734,7 +740,7 @@ export const createUIStore = (root: IRootStore) => {
 					store.temporaryResult = null;
 				}
 
-				if (query === "ip") {
+				if (normalizedQuery === "ip") {
 					const info = solNative.getWifiInfo();
 					if (info.ip) {
 						store.temporaryResult = createTextTemporaryResult(info.ip, "IP");

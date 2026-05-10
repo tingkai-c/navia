@@ -1,4 +1,5 @@
 import { extractMeetingLink } from "lib/calendar";
+import { normalizeQueryForMatching } from "lib/queryNormalization";
 import { solNative } from "lib/SolNative";
 import { makeAutoObservable } from "mobx";
 import { Clipboard, type EmitterSubscription, Linking } from "react-native";
@@ -318,6 +319,7 @@ export const createKeystrokeStore = (root: IRootStore) => {
 							//   \___\_\\____/|______|_|  \_\ |_|    |______|_| \_|  |_|  |______|_|  \_\______|_____/
 
 							root.ui.addToHistory(root.ui.query);
+							const normalizedQuery = normalizeQueryForMatching(root.ui.query);
 
 							if (shift) {
 								root.ui.translateQuery();
@@ -329,7 +331,7 @@ export const createKeystrokeStore = (root: IRootStore) => {
 								switch (root.ui.searchEngine) {
 									case "google":
 										Linking.openURL(
-											`https://google.com/search?q=${encodeURI(root.ui.query)}`,
+											`https://google.com/search?q=${encodeURI(normalizedQuery)}`,
 										).catch((e) => {
 											solNative.showToast(
 												`Could not open URL: ${root.ui.query}, error: ${e}`,
@@ -339,7 +341,7 @@ export const createKeystrokeStore = (root: IRootStore) => {
 										break;
 									case "duckduckgo":
 										Linking.openURL(
-											`https://duckduckgo.com/?q=${encodeURI(root.ui.query)}`,
+											`https://duckduckgo.com/?q=${encodeURI(normalizedQuery)}`,
 										).catch((e) => {
 											solNative.showToast(
 												`Could not open URL: ${root.ui.query}, error: ${e}`,
@@ -349,7 +351,7 @@ export const createKeystrokeStore = (root: IRootStore) => {
 										break;
 									case "bing":
 										Linking.openURL(
-											`https://bing.com/search?q=${encodeURI(root.ui.query)}`,
+											`https://bing.com/search?q=${encodeURI(normalizedQuery)}`,
 										).catch((e) => {
 											solNative.showToast(
 												`Could not open URL: ${root.ui.query}, error: ${e}`,
@@ -360,7 +362,7 @@ export const createKeystrokeStore = (root: IRootStore) => {
 									case "perplexity":
 										Linking.openURL(
 											`https://perplexity.ai/search/new?q=${encodeURI(
-												root.ui.query,
+												normalizedQuery,
 											)}`,
 										).catch((e) => {
 											solNative.showToast(
@@ -382,7 +384,7 @@ export const createKeystrokeStore = (root: IRootStore) => {
 										Linking.openURL(
 											root.ui.customSearchUrl.replace(
 												"%s",
-												encodeURI(root.ui.query),
+												encodeURI(normalizedQuery),
 											),
 										).catch((e) => {
 											solNative.showToast(

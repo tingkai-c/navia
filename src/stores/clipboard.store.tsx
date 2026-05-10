@@ -1,5 +1,9 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { captureException } from "@sentry/react-native";
+import {
+	normalizeQueryForMatching,
+	tokenizeQueryText,
+} from "lib/queryNormalization";
 import { solNative } from "lib/SolNative";
 import MiniSearch from "minisearch";
 import { autorun, makeAutoObservable, runInAction } from "mobx";
@@ -27,8 +31,7 @@ export type PasteItem = {
 const minisearch = new MiniSearch({
 	fields: ["text"],
 	storeFields: ["id", "text", "url", "bundle", "datetime"],
-	// tokenize: (text: string, fieldName?: string) =>
-	// 	text.toLowerCase().split(/[\s\.-]+/),
+	tokenize: (text: string, _fieldName?: string) => tokenizeQueryText(text),
 });
 
 function isManagedPasteboardImagePath(path: string | null | undefined) {
@@ -154,14 +157,15 @@ export const createClipboardStore = (root: IRootStore) => {
 		},
 		get clipboardItems(): PasteItem[] {
 			const items = store.items;
+			const normalizedQuery = normalizeQueryForMatching(root.ui.query);
 
-			if (!root.ui.query || root.ui.focusedWidget !== Widget.CLIPBOARD) {
+			if (!normalizedQuery || root.ui.focusedWidget !== Widget.CLIPBOARD) {
 				return items;
 			}
 
 			// Boost recent items in search results
 			const now = Date.now();
-			return minisearch.search(root.ui.query, {
+			return minisearch.search(normalizedQuery, {
 				boostDocument: (_, __, storedFields) => {
 					const dt =
 						typeof storedFields?.datetime === "number"
