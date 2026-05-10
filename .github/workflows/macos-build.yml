@@ -44,6 +44,22 @@ jobs:
         working-directory: macos
         run: bundle exec pod install
 
+      - name: Create CI environment module
+        run: |
+          cat > src/env.ts <<'EOF'
+          export const SentryDSN = "";
+          EOF
+
+      - name: Check React Native bundle inputs
+        run: |
+          bunx react-native bundle \
+            --entry-file index.js \
+            --platform macos \
+            --dev false \
+            --bundle-output build/preflight-main.jsbundle \
+            --assets-dest build/preflight-assets \
+            --reset-cache
+
       - name: Resolve Swift package dependencies
         run: |
           xcodebuild -resolvePackageDependencies \
