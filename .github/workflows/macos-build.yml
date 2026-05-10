@@ -1,0 +1,94 @@
+name: Build macOS App
+
+"on":
+  push:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: macos-build-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  APP_NAME: Navia
+  DERIVED_DATA_PATH: build/DerivedData
+  RESULT_BUNDLE_PATH: build/NaviaBuild.xcresult
+  RCT_NO_LAUNCH_PACKAGER: "1"
+  SENTRY_DISABLE_AUTO_UPLOAD: "true"
+  COMPILER_INDEX_STORE_ENABLE: "NO"
+
+jobs:
+  build-macos:
+    name: Build Navia.app
+    runs-on: macos-latest
+    timeout-minutes: 60
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Bun
+        uses: oven-sh/setup-bun@v2
+
+      - name: Install JavaScript dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Set up Ruby gems
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+
+      - name: Install CocoaPods dependencies
+        working-directory: macos
+        run: bundle exec pod install
+
+      - name: Resolve Swift package dependencies
+        run: |
+          xcodebuild -resolvePackageDependencies \
+            -workspace macos/sol.xcworkspace \
+            -scheme release
+
+      - name: Build macOS app
+        run: |
+          set -o pipefail
+          mkdir -p build
+
+          xcodebuild \
+            -workspace macos/sol.xcworkspace \
+            -scheme release \
+            -configuration Release \
+            -destination 'platform=macOS' \
+            -derivedDataPath "$DERIVED_DATA_PATH" \
+            -resultBundlePath "$RESULT_BUNDLE_PATH" \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGN_IDENTITY="" \
+            build
+
+      - name: Package app artifact
+        run: |
+          app_path="$DERIVED_DATA_PATH/Build/Products/Release/$APP_NAME.app"
+          zip_path="build/$APP_NAME.app.zip"
+
+          test -d "$app_path"
+          cd "$(dirname "$app_path")"
+          ditto -c -k --sequesterRsrc --keepParent "$APP_NAME.app" "$GITHUB_WORKSPACE/$zip_path"
+
+      - name: Upload app artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Navia-macOS-app
+          path: build/Navia.app.zip
+          if-no-files-found: error
+          retention-days: 14
+
+      - name: Upload Xcode result bundle on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: Navia-xcresult
+          path: build/NaviaBuild.xcresult
+          if-no-files-found: ignore
+          retention-days: 7
