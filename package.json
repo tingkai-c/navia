@@ -4,11 +4,11 @@
 	"private": true,
 	"scripts": {
 		"start": "react-native start",
-		"macos": "COMPILER_INDEX_STORE_ENABLE=NO SENTRY_DISABLE_AUTO_UPLOAD=true react-native run-macos --scheme debug",
+		"macos": "./scripts/require-ci-artifact-build.sh bun macos && COMPILER_INDEX_STORE_ENABLE=NO SENTRY_DISABLE_AUTO_UPLOAD=true react-native run-macos --scheme debug",
 		"bump": "./scripts/bump-version.sh",
 		"permissions:reset": "tccutil reset Calendar com.tingkaichiu.navia && tccutil reset Accessibility com.tingkaichiu.navia",
-		"dev": "bundle exec fastlane dev && rimraf releases/Navia.app && open /Applications/Navia.app",
-		"release": "bundle exec fastlane release",
+		"dev": "./scripts/require-ci-artifact-build.sh bun dev && bundle exec fastlane dev && rimraf releases/Navia.app && open /Applications/Navia.app",
+		"release": "./scripts/require-ci-artifact-build.sh bun release && bundle exec fastlane release",
 		"fix-dependencies": "rnx-align-deps --write",
 		"pods": "cd macos && rm -rf Podfile.lock && bundle exec pod install && xcodebuild -resolvePackageDependencies -workspace sol.xcworkspace -scheme debug",
 		"typecheck": "tsc --noEmit"

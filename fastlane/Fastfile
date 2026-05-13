@@ -1,8 +1,29 @@
 default_platform(:mac)
 
+def require_ci_artifact_build!(command_name)
+  return if ENV["NAVIA_ALLOW_LOCAL_APP_BUILD"] == "1"
+
+  UI.user_error!(<<~MSG)
+    Navia local app build/release/open/install command blocked: #{command_name}
+
+    Signed/testable Navia.app artifacts must come from GitHub Actions, not local app builds.
+    Use the GitHub Actions artifact instead.
+    Commit and push the change, wait for .github/workflows/macos-build.yml, then download
+    and install the Navia-macOS-signed-notarized-app artifact.
+
+    Set NAVIA_ALLOW_LOCAL_APP_BUILD=1 only for intentional human recovery/development;
+    agents must not use that override for completion verification.
+  MSG
+end
+
 platform :mac do
 
+  lane :dev do
+    require_ci_artifact_build!("bundle exec fastlane dev")
+  end
+
   lane :release do
+    require_ci_artifact_build!("bundle exec fastlane release")
 
     # check_apple_agreement(
     #   apple_id: ENV["FASTLANE_APPLE_ID"],

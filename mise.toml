@@ -13,6 +13,7 @@ run = "bun start"
 description = "Open the existing debug macOS app, or build it once if missing"
 run = '''
 set -e
+./scripts/require-ci-artifact-build.sh mise run app
 APP="$(find "$HOME/Library/Developer/Xcode/DerivedData" -path "*/Build/Products/Debug/NaviaDebug.app" -type d -print -quit 2>/dev/null || true)"
 if [ -n "$APP" ]; then
   echo "Opening $APP"
@@ -25,16 +26,17 @@ fi
 
 [tasks.macos]
 description = "Build and launch the debug macOS app"
-run = "bun macos"
+run = "./scripts/require-ci-artifact-build.sh mise run macos && bun macos"
 
 [tasks.local]
 description = "Build and launch the local debug Navia app"
-run = "bun macos"
+run = "./scripts/require-ci-artifact-build.sh mise run local && bun macos"
 
 [tasks.build-release]
 description = "Build the local Release Navia app"
 run = '''
 set -euo pipefail
+./scripts/require-ci-artifact-build.sh mise run build-release
 xcodebuild \
   -workspace macos/sol.xcworkspace \
   -scheme release \
@@ -59,6 +61,7 @@ echo "Built $APP"
 description = "Build and open a local Release Navia app for better performance"
 run = '''
 set -euo pipefail
+./scripts/require-ci-artifact-build.sh mise run local-release
 mise run build-release
 APP="macos/build-local/Build/Products/Release/Navia.app"
 echo "Opening $APP"
@@ -69,6 +72,7 @@ open "$APP"
 description = "Build Release, copy Navia.app to /Applications, and open it"
 run = '''
 set -euo pipefail
+./scripts/require-ci-artifact-build.sh mise run install-local
 mise run build-release
 
 APP="macos/build-local/Build/Products/Release/Navia.app"
@@ -94,8 +98,8 @@ open "$DEST"
 
 [tasks.perf]
 description = "Alias for local-release"
-run = "mise run local-release"
+run = "./scripts/require-ci-artifact-build.sh mise run perf && mise run local-release"
 
 [tasks.default]
 description = "Open the debug macOS app"
-run = "mise run app"
+run = "./scripts/require-ci-artifact-build.sh mise run default && mise run app"
